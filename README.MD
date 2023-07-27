@@ -1,4 +1,4 @@
-Neuron IO
+# Neuron IO
 Implementation of the Transformer neural network architecture model, inspired by the original "Attention is All You Need" paper by Google
 ## Key Features
 - Modularity: The project follows a modular approach, providing separate modules for key components such as activation functions, attention mechanisms, linear layers, and loss functions. This organization enhances code reusability and maintainability.
