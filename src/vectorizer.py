@@ -1,7 +1,7 @@
 from collections import defaultdict
 import re 
 import ctypes
-from neuio.tools import RE_PATTERNS
+from src.tools import RE_PATTERNS
 
 class Array(ctypes.Structure):
     _fields_ = [("values", ctypes.POINTER(ctypes.c_char_p)), ("length", ctypes.c_int)]
@@ -13,7 +13,7 @@ class CHashMap(ctypes.Structure):
 
 class BuildVectors:
     def __init__(self):
-        SHARED_LIB = './neuio/extensions/vector.so'
+        SHARED_LIB = './src/extensions/vector.so'
         self.lib = ctypes.CDLL(SHARED_LIB)
         self.lib.c_fit.argtypes = [Array]
         self.lib.c_fit.restype = ctypes.c_int
@@ -47,12 +47,21 @@ class BuildVectors:
                     vector[vector_index]+=1
             vectors.append(vector)
         return vectors
-    def vectorize(self,texts:list):
-        texts = self._clean_texts_(texts)
-        c_strings = [ctypes.c_char_p(s.encode()) for s in texts]
-        c_arr = Array((ctypes.c_char_p * len(c_strings))(*c_strings), len(c_strings))
-        result = self.lib.c_vectorize(c_arr)
-        return result
+    def vectorize(self, texts: list):
+            texts = self._clean_texts_(texts)
+            c_strings = [ctypes.c_char_p(s.encode()) for s in texts]
+            c_arr = Array((ctypes.c_char_p * len(c_strings))(*c_strings), len(c_strings))
+            result = self.lib.c_vectorize(c_arr, self.vocab_store_size) 
+            return result
+
+    def _convert_c_array_to_list(self, c_array):
+        vectors = []
+        for i in range(c_array.length):
+            vector = []
+            for j in range(self.vocab_store_size):   
+                vector.append(c_array.values[i][j])
+            vectors.append(vector)
+        return vectors
         
     def _fit_vectorize(self,texts:list):
         self.vocab_store = defaultdict(int)

@@ -1,5 +1,4 @@
 import numpy as np
-
 class Loss:
     @staticmethod
     def mean_squared_error(y_true, y_pred):

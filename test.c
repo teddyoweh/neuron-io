@@ -77,14 +77,13 @@ void hashmap_put(struct HashMap* hashMap, const char* key, int value)
         {
             if (strcmp(current->key, key) == 0)
             {
-                current->value = value; // Update the value if the key already exists
+                current->value = value;  
                 free(newNode->key);
                 free(newNode);
                 return;
             }
             current = current->next;
         }
-        // Key not found, add a new node to the list
         newNode->next = hashMap->table[index];
         hashMap->table[index] = newNode;
     }
@@ -108,7 +107,7 @@ int hashmap_get(struct HashMap* hashMap, const char* key)
 
 void hashmap_update(struct HashMap* hashMap, const char* key, int value)
 {
-    hashmap_put(hashMap, key, value); // Call hashmap_put to update or add the key-value pair
+    hashmap_put(hashMap, key, value);  
 }
 
  

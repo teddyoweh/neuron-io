@@ -164,8 +164,8 @@ int c_fit(struct Array arr){
  }
  return hashmap_get(&VocabStore, "all,") ;
 }
-
-struct Array c_vectorize(struct Array arr,int vocab_size){
+// struct Array
+ char **c_vectorize(struct Array arr,int vocab_size){
     struct Array vectors;
     vectors.values = NULL;
     vectors.length =0;
@@ -183,6 +183,6 @@ struct Array c_vectorize(struct Array arr,int vocab_size){
     
     }
    
-    return vectors;
+    return vectors.values;
 }
  
